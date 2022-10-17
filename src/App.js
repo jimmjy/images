@@ -1,23 +1,40 @@
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react';
+
+// components
+import ImageViewer from './components/ImageViewer';
+
+// constants
+import { HOME_PAGE_TITLE } from './locale/homePageText';
+
+// utils
+import { fetchImage } from './utils/fetchImages';
+
+// styles
 import './App.css';
 
 function App() {
+  const [images, setImages] = useState([]);
+
+  useEffect(() => {
+    let canFetch = true;
+
+    fetchImage()
+      .then((data) => {
+        const hasImages = data.length > 0;
+
+        if (hasImages && canFetch) {
+          setImages(data);
+        }
+      })
+      .catch((err) => console.error(err));
+
+    return () => (canFetch = false);
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <p>{HOME_PAGE_TITLE}</p>
+      <ImageViewer images={images} />
     </div>
   );
 }

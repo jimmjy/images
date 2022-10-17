@@ -1,0 +1,12 @@
+.Viewer-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 5px;
+  gap: 5px;
+  justify-content: center;
+}
+
+.img {
+  width: 33%;
+  height: 300px;
+}
